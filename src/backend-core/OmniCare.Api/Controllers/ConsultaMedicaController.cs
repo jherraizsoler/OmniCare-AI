@@ -8,50 +8,51 @@ namespace OmniCare.Api.Controllers
     [Route("api/[controller]")]
     public class ConsultaMedicaController : ControllerBase
     {
-        private readonly IAsistenteMedicoService _aiService;
+        private readonly IAsistenteMedicoService _asistenteService;
         private readonly ILogger<ConsultaMedicaController> _logger;
 
-        public ConsultaMedicaController(IAsistenteMedicoService aiService, ILogger<ConsultaMedicaController> logger)
+        public ConsultaMedicaController(IAsistenteMedicoService asistenteService, ILogger<ConsultaMedicaController> logger)
         {
-            _aiService = aiService;
+            _asistenteService = asistenteService;
             _logger = logger;
         }
 
-        /// <summary>
-        /// Envía una consulta médica al motor de IA para su análisis.
-        /// </summary>
-        /// <param name="consulta">Datos del paciente y síntomas.</param>
-        /// <returns>Análisis generado por los agentes de LangGraph.</returns>
-        [HttpPost("analizar")]
-        [ProducesResponseType(typeof(AiResponseDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Analizar([FromBody] MedicalQueryDto consulta)
+        // Endpoint de Streaming
+        [HttpPost("analizar-stream")]
+        public async Task AnalizarStream([FromBody] MedicalQueryDto consulta)
         {
-            // 1. Validación de Reglas de Negocio (Diseño Sólido)
+            // Validamos consentimiento antes de iniciar el flujo
             if (!consulta.ConsentProvided)
             {
                 _logger.LogWarning("Intento de consulta sin consentimiento para el paciente: {PatientId}", consulta.PatientId);
-                return BadRequest("Se requiere el consentimiento explícito del paciente para procesar datos médicos.");
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Se requiere el consentimiento del paciente.");
+                return;
             }
 
-            if (string.IsNullOrWhiteSpace(consulta.Symptoms))
-            {
-                return BadRequest("La descripción de los síntomas no puede estar vacía.");
-            }
+            _logger.LogInformation("Iniciando streaming de IA para el paciente {PatientId}...", consulta.PatientId);
+
+            // Establecemos el tipo de contenido como texto plano para el stream
+            Response.ContentType = "text/plain";
 
             try
             {
-                _logger.LogInformation("Enviando caso del paciente {PatientId} al motor de IA...", consulta.PatientId);
-
-                // 2. Llamada al Puente (Python FastAPI)
-                var resultado = await _aiService.AnalizarCasoAsync(consulta);
-
-                return Ok(resultado);
+                // Consumimos el IAsyncEnumerable de nuestro servicio
+                await foreach (var token in _asistenteService.AnalizarCasoStreamAsync(consulta))
+                {
+                    // Escribimos el token directamente en el cuerpo de la respuesta HTTP
+                    await Response.WriteAsync(token);
+                    
+                    // Forzamos el envío del buffer para que el cliente vea la palabra de inmediato
+                    await Response.Body.FlushAsync();
+                }
+                
+                _logger.LogInformation("Streaming completado con éxito para {PatientId}", consulta.PatientId);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al comunicarse con el motor de IA para el paciente {PatientId}", consulta.PatientId);
-                return StatusCode(500, "Error interno al procesar el análisis médico.");
+                _logger.LogError(ex, "Error durante el streaming de IA para el paciente {PatientId}", consulta.PatientId);
+                Response.StatusCode = 500;
             }
         }
     }

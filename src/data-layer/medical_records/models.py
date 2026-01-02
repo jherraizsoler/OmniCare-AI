@@ -17,11 +17,13 @@ class ConsultationLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class AiAuditLog(models.Model):
-    patient_id = models.CharField(max_length=50)
-    agent_name = models.CharField(max_length=100)
-    input_symptoms = models.TextField()
-    ai_analysis = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='audit_logs')
+    input_query = models.TextField()
+    ai_response = models.TextField()
+    model_used = models.CharField(max_length=100)
+    # Agregamos este campo que te faltaba
+    agent_name = models.CharField(max_length=100, default="OmniCare_Analyst") 
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Auditoría {self.patient_id} - {self.agent_name} - {self.timestamp}"
+        return f"Consulta {self.id} - {self.patient.name}"

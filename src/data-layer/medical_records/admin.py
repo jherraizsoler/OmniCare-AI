@@ -13,5 +13,8 @@ class ConsultationLogAdmin(admin.ModelAdmin):
     
 @admin.register(AiAuditLog)
 class AiAuditLogAdmin(admin.ModelAdmin):
-    list_display = ('patient_id', 'agent_name', 'timestamp')
-    readonly_fields = ('timestamp',) # Para que no se pueda modificar la hora
+    # Ahora sí incluimos agent_name porque existe en el modelo
+    list_display = ('id', 'patient', 'agent_name', 'model_used', 'created_at')
+    
+    # Cambiamos 'timestamp' por 'created_at' que es el nombre en tu modelo
+    readonly_fields = ('created_at',)

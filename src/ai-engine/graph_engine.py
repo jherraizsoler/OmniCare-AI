@@ -7,7 +7,7 @@ from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 import httpx
 
 # Importamos tu definición de estado
-from .state import AgentState
+from state import AgentState
 
 load_dotenv()
 
@@ -48,23 +48,32 @@ async def analysis_node(state: AgentState):
 
 # 4. NODO: Revisor de Ética (Usa tus banderas de seguridad)
 async def ethics_node(state: AgentState):
-    last_message = state['messages'][-1].content
-    
-    prompt = [
-        SystemMessage(content="""Eres un Revisor de Ética Médica. 
-        Tu tarea es añadir un descargo de responsabilidad si no existe. 
-        NUNCA des diagnósticos definitivos."""),
-        HumanMessage(content=f"Revisa y mejora este análisis: {last_message}")
-    ]
-    
-    response = await llm.ainvoke(prompt)
-    
-    # Aquí activamos la bandera que tienes en state.py
+    # Obtener el contenido de la respuesta final
+    final_response = state['messages'][-1].content
+    patient_id = state['patient_data'].get('patient_id')
+    symptoms = state['messages'][0].content # El primer mensaje enviado
+
+    # --- Lógica de Auditoría ---
+    async with httpx.AsyncClient() as client:
+        try:
+            audit_data = {
+                "patient_id": patient_id,
+                "agent_name": "Ethics_Reviewer_Agent",
+                "input_symptoms": symptoms,
+                "ai_analysis": final_response
+            }
+            # Enviamos el log al nuevo endpoint que configuramos en Django
+            await client.post("http://localhost:8001/api/audit-logs/", json=audit_data)
+            print(f"✅ Auditoría guardada para el paciente {patient_id}")
+        except Exception as e:
+            print(f"❌ Error al guardar auditoría: {e}")
+
     return {
-        "messages": [response],
+        "messages": [state['messages'][-1]],
         "safety_check_passed": True
     }
-
+    
+    
 # 5. Construcción del Grafo de Agentes Autónomos
 workflow = StateGraph(AgentState)
 

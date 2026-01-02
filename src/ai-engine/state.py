@@ -1,16 +1,10 @@
-from typing import Annotated, TypedDict, List, Union
-from langchain_core.messages import BaseMessage
-from operator import add
+# state.py
+from typing import TypedDict, Annotated
+from langgraph.graph.message import add_messages
 
 class AgentState(TypedDict):
-    # Los mensajes se van acumulando (Annotated con add)
-    messages: Annotated[List[BaseMessage], add]
-    
-    # Datos estructurados del paciente que el agente debe manejar
-    patient_data: dict 
-    
-    # El recurso médico que se está evaluando (ej. "Quirófano 5")
+    # Annotated + add_messages permite que los nodos "sumen" mensajes a la lista
+    messages: Annotated[list, add_messages] 
+    patient_data: dict
     resource_focus: str
-    
-    # Banderas de seguridad para el Agente de Ética
     safety_check_passed: bool
