@@ -1,0 +1,6 @@
+@OmniCare.Api_HostAddress = http://localhost:5129
+
+GET {{OmniCare.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

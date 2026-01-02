@@ -1,0 +1,25 @@
+# .NET
+bin/
+obj/
+[Log]/
+*.user
+*.suo
+.vs/
+appsettings.Development.json
+
+# Python (FastAPI & Django)
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.pytest_cache/
+
+# Base de Datos Local (SQLite)
+# La ignoramos porque los datos reales de prueba los manejaremos con "Fixtures"
+*.sqlite3
+
+# Angular
+dist/
+node_modules/
+.angular/
