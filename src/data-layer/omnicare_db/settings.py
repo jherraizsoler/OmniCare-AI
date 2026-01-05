@@ -143,3 +143,9 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+
+AUTHENTICATION_BACKENDS = [
+    'medical_records.auth_backends.EmailOrUsernameModelBackend', # Tu lógica personalizada
+    'django.contrib.auth.backends.ModelBackend',                # Backend por defecto de Django
+]

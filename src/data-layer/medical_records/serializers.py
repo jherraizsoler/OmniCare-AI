@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Patient, AiAuditLog # Añadimos el nuevo modelo aquí
+from django.contrib.auth.models import User
+from .models import Patient,ConsultaIA # Añadimos el nuevo modelo aquí
 
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,13 +9,22 @@ class PatientSerializer(serializers.ModelSerializer):
 
 # --- NUEVO SERIALIZADOR PARA AUDITORÍA ---
 class AiAuditLogSerializer(serializers.ModelSerializer):
-    # Usamos SlugRelatedField para que el grafo pueda enviar "PAC-001" 
-    # en lugar de un ID numérico interno
-    patient = serializers.SlugRelatedField(
-        slug_field='patient_id', 
-        queryset=Patient.objects.all()
-    )
+    """
+    Este serializador ahora apunta a ConsultaIA. 
+    Mapeamos los campos para que el Dashboard de Auditoría siga funcionando.
+    """
+    # Usamos SlugRelatedField para que en el Dashboard aparezca el nombre/DNI del paciente
+    paciente = serializers.SlugRelatedField(slug_field='username', read_only=True)
 
     class Meta:
-        model = AiAuditLog
-        fields = '__all__'
+        model = ConsultaIA
+        fields = [
+            'id', 
+            'paciente', 
+            'mensaje_usuario', 
+            'respuesta_ia', 
+            'fecha', 
+            'urgencia', 
+            'riesgo', 
+            'dolor'
+        ]
