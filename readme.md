@@ -518,7 +518,6 @@ reportlab>=4.0.0  # Para generación de PDFs
 OPENAI_API_KEY=tu-api-key-aqui
 
 # Django Configuration
-DJANGO_SECRET_KEY=tu-secret-key-aqui
 DJANGO_DEBUG=False
 DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
 
@@ -526,7 +525,6 @@ DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
 DATABASE_URL=postgresql://user:password@localhost:5432/omnicare
 
 # JWT Configuration
-JWT_SECRET_KEY=tu-jwt-secret-key
 JWT_ALGORITHM=HS256
 JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
 JWT_REFRESH_TOKEN_EXPIRE_DAYS=7
