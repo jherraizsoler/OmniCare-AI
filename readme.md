@@ -207,7 +207,7 @@ streamlit run dashboard.py
 > El dashboard se abrirá automáticamente en tu navegador en `http://localhost:8501`
 
 
-### 🖥️ Scalar API Backend Core (.NET 8)
+### 4. 🖥️ Scalar API Backend Core (.NET 8)
 
 Servicio principal que expone la API y gestiona el streaming de respuestas de IA.
 
@@ -217,7 +217,7 @@ cd src/backend-core/OmniCare.Api
 
 # Ejecutar la aplicación
 dotnet run
-
+```
 > **Tip 💡**  
 > En **Scalar**, puedes usar el botón **"Test Request"** (como se muestra en la captura) para observar cómo los **tokens de la IA llegan uno a uno**, 
 > gracias al soporte de **streaming en tiempo real** configurado en el backend.
