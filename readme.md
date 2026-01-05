@@ -223,28 +223,29 @@ dotnet run
 > gracias al soporte de **streaming en tiempo real** configurado en el backend.
 
 
-**Funcionalidades por Rol:**
+### 👥 Funcionalidades por Rol
 
-**🟣 Vista Supervisor:**
-- 📊 Dashboard de métricas globales y KPIs del sistema
-- 👥 Gestión completa de personal médico
-- 🔍 Auditoría de todas las consultas de IA
-- 📈 Análisis de Big Data sobre tendencias clínicas
-- 🛠️ Configuración avanzada del sistema
+El sistema adapta su interfaz y lógica de negocio dinámicamente según el perfil del usuario autenticado:
 
-**🔵 Vista Médico:**
-- 👨‍⚕️ Gestión de pacientes asignados
-- 💬 Chat inteligente con streaming de respuestas
-- 📋 Historial completo de consultas médicas
-- 📊 Visualización de evolución de pacientes
-- 🔬 Herramientas de diagnóstico asistido
+#### 🟣 Vista Supervisor (Admin & Big Data)
+* **📊 Dashboard de Métricas Globales**: Visualización de KPIs críticos y rendimiento del sistema en tiempo real.
+* **👥 Gestión de Facultativos**: Control total sobre el alta, baja y administración del personal médico.
+* **🔍 Auditoría de Agentes**: Supervisión detallada de los logs de la IA para garantizar la seguridad clínica.
+* **📈 Análisis de Big Data**: Identificación de tendencias patológicas y estadísticas operativas a gran escala.
+* **🛠️ Configuración de Sistema**: Gestión de parámetros de red y variables de entorno del core empresarial.
 
-**🟢 Vista Paciente:**
-- 🏥 Acceso a historial personal
-- 💬 Chat de triaje asistido por IA
-- 📈 Gráficos de métricas de salud (Dolor, Urgencia, Riesgo)
-- 📅 Seguimiento de consultas anteriores
-- 📄 Exportación de informes en PDF
+#### 🔵 Vista Médico (Clinical Operations)
+* **🆕 Registro de Pacientes**: Capacidad exclusiva para dar de alta a nuevos pacientes en el sistema.
+* **📌 Auto-asignación de Casos**: Gestión directa de la relación médico-paciente y asignación de expedientes.
+* **💬 Diagnóstico Asistido**: Chat inteligente orquestado por **LangGraph** con respuesta en streaming.
+* **📄 Exportación de Informes**: Generación y descarga de informes clínicos oficiales en formato PDF.
+* **📊 Monitor de Evolución**: Herramientas visuales para el seguimiento de la mejoría y métricas del paciente.
+
+#### 🟢 Vista Paciente (Personal Care)
+* **🏥 Portal de Salud Personal**: Acceso seguro a su historial médico y recomendaciones recibidas.
+* **💬 Triaje Inteligente**: Chat de asistencia inicial para la evaluación de urgencia de síntomas.
+* **📈 Seguimiento de Constantes**: Gráficos interactivos de niveles de Dolor, Urgencia y Riesgo.
+* **📅 Registro de Actividad**: Consulta cronológica de interacciones y visitas anteriores.
 
 ---
 
