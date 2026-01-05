@@ -1,4 +1,11 @@
 # 🏥 OmniCare AI: Sistema de Agentes Médicos Autónomos
+<p align="center">
+  <img src="tu_ruta_a_la_imagen/banner_omnicare.png" alt="OmniCare AI Banner" width="100%">
+</p>
+> **Arquitectura Híbrida**: Núcleo empresarial en **.NET 8**, 
+> orquestación de agentes con **LangGraph** y persistencia de datos 
+> en **Django**.
+
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)
