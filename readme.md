@@ -8,14 +8,14 @@
 > en **Django**.
 
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.10+-yellow.svg)
+![.NET 8](https://img.shields.io/badge/.NET-8+-purple.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)
 ![Django](https://img.shields.io/badge/Django-5.0+-darkgreen.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-red.svg)
 ![LangGraph](https://img.shields.io/badge/LangGraph-Latest-purple.svg)
 ![License](https://img.shields.io/badge/License-©jherraizsoler-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Production-success.svg)
-![OmniCare AI Preview](docs/omnicare-preview.png)
 
 
 Sistema inteligente de análisis médico que combina un motor de IA basado en **LangGraph**, una capa de datos en **Django**, y una interfaz interactiva con **Streamlit**. Arquitectura de microservicios diseñada para la automatización de procesos clínicos complejos con auditoría completa y gestión profesional por roles.
