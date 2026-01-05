@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Patient, ConsultationLog, AiAuditLog
+from .models import Patient, ConsultationLog, AiAuditLog, ConsultaIA
 
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
@@ -18,3 +18,9 @@ class AiAuditLogAdmin(admin.ModelAdmin):
     
     # Cambiamos 'timestamp' por 'created_at' que es el nombre en tu modelo
     readonly_fields = ('created_at',)
+
+@admin.register(ConsultaIA)
+class ConsultaIAAdmin(admin.ModelAdmin):
+    list_display = ('paciente', 'fecha', 'urgencia', 'riesgo')
+    list_filter = ('urgencia', 'fecha')
+    search_fields = ('paciente__username', 'mensaje_usuario')
