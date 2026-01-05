@@ -120,7 +120,7 @@ Sistema de colores semánticos para prevenir errores operativos:
 
 ## 🚀 Guía de Inicio Rápido
 
-Para poner en marcha el sistema completo, abre **tres terminales** y sigue estos pasos en orden:
+Para poner en marcha el sistema completo, abre **cuatro terminales** y sigue estos pasos en orden:
 
 ---
 
