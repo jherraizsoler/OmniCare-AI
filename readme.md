@@ -7,11 +7,18 @@
 ![LangGraph](https://img.shields.io/badge/LangGraph-Latest-purple.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Status](https://img.shields.io/badge/Status-Production-success.svg)
+![OmniCare AI Preview](docs/omnicare-preview.png)
 
 
 Sistema inteligente de análisis médico que combina un motor de IA basado en **LangGraph**, una capa de datos en **Django**, y una interfaz interactiva con **Streamlit**. Arquitectura de microservicios diseñada para la automatización de procesos clínicos complejos con auditoría completa y gestión profesional por roles.
 
+> **TL;DR**  
+> Plataforma médica basada en agentes autónomos con LangGraph, orquestada por .NET 8,  
+> con IA en streaming, auditoría clínica, seguridad JWT y dashboards por rol.
+
+
 ---
+
 
 ## ✨ Nuevas Funcionalidades y Mejoras Implementadas
 
@@ -316,40 +323,38 @@ curl -X POST "http://localhost:8000/analyze-stream" \
 
 ---
 
-## 🧠 Arquitectura de Agentes (LangGraph)
+## 🧠 Arquitectura de Agentes (LangGraph) con Integración .NET
 
-El sistema utiliza un grafo de agentes autónomos con tres nodos principales:
+El sistema utiliza un grafo de agentes autónomos coordinado mediante un pipeline híbrido donde **.NET 8** actúa como el orquestador de negocio y **Python** como el motor de razonamiento:
 
 ### 1. **Retriever Agent**
-- Conecta con Django para obtener el historial clínico del paciente
-- Recupera datos mediante API REST (`/api/patients/{id}/`)
-- Maneja errores de conexión de forma robusta
-- Cache inteligente para optimizar consultas frecuentes
+- Conecta con la capa de datos de Django y los servicios core de .NET para obtener el historial clínico.
+- Recupera datos mediante API REST y servicios inyectados en el contenedor de dependencias de **ASP.NET Core**.
+- Implementa patrones de resiliencia similares a *Polly* en .NET para manejar errores de conexión.
 
 ### 2. **Medical Analyst Agent**
-- Utiliza **GPT-4o-mini** (optimizado para costos y velocidad)
-- Analiza síntomas combinados con historial médico completo
-- Genera diagnósticos preliminares y recomendaciones terapéuticas
-- Considera factores de riesgo y comorbilidades
+- Utiliza **GPT-4o-mini** para procesar los datos estructurados provenientes del **Backend Core**.
+- Analiza síntomas combinados con metadatos enriquecidos por la lógica de negocio en C#.
+- Genera diagnósticos preliminares que son validados por las reglas de negocio de .NET antes de su entrega.
 
 ### 3. **Ethics Reviewer Agent**
-- Valida la seguridad de las respuestas generadas
-- Registra cada interacción en la base de datos de auditoría
-- Garantiza trazabilidad completa del sistema
-- Filtra contenido potencialmente problemático
+- Valida la seguridad de las respuestas y asegura el cumplimiento normativo (GDPR/HIPAA).
+- Registra cada interacción en los logs de auditoría compartidos.
+- Utiliza filtros éticos avanzados para prevenir la generación de contenido sensible.
 
-**Flujo de Ejecución:**
-```
-Consulta del Usuario
-    ↓
-Retriever Agent (obtiene historial)
-    ↓
-Medical Analyst Agent (procesa con GPT-4o-mini)
-    ↓
-Ethics Reviewer Agent (valida y registra)
-    ↓
-Respuesta al Usuario + Log de Auditoría
-```
+**Flujo de Ejecución Híbrido:**
+
+Consulta del Usuario (Streamlit)  
+↓  
+Backend Core (.NET 8) → Validación de Reglas de Negocio  
+↓  
+LangGraph Engine (Python) → Orquestación de Agentes  
+↓  
+Retriever (Django) ↔ Analyst (GPT) ↔ Ethics Reviewer  
+↓  
+Respuesta en Streaming vía Scalar / WebSockets
+
+---
 
 **Características Avanzadas:**
 - ✅ Manejo de estado robusto con `AgentState`
@@ -360,18 +365,21 @@ Respuesta al Usuario + Log de Auditoría
 
 ---
 
+---
+
 ## 📊 Arquitectura Técnica
 
-| Componente | Tecnología | Responsabilidad |
-|------------|------------|-----------------|
-| **Frontend** | Streamlit | Dashboard interactivo con roles y visualización de métricas |
-| **Orquestador** | LangGraph | Grafo de agentes autónomos y gestión de estado |
-| **Backend** | Django 5.0 | Persistencia, seguridad JWT y lógica de negocio |
-| **IA Model** | GPT-4o-mini | Procesamiento de lenguaje natural y análisis clínico |
-| **API Layer** | FastAPI | Endpoint de alto rendimiento para streaming de IA |
-| **Base de Datos** | SQLite/PostgreSQL | Almacenamiento de historiales y auditoría |
-| **Visualización** | Matplotlib | Gráficos y métricas en tiempo real |
-| **Documentación** | Swagger UI + Scalar | API Explorer interactivo |
+| Componente | Tecnología | Rol / Patrón .NET Equivalente |
+|------------|------------|-------------------------------|
+| **Frontend** | Streamlit | Interfaz de Usuario Reactiva |
+| **Backend Core** | **.NET 8 (C#)** | **Enterprise Business Logic / Web API** |
+| **API Explorer** | **Scalar** | **Modern Swagger / OpenAPI Interface** |
+| **Orquestador** | LangGraph | Workflow Engine / Semantic Kernel |
+| **Data Layer** | Django 5.0 | Persistence Layer / Entity Framework Pattern |
+| **IA Model** | GPT-4o-mini | LLM Service |
+| **API Layer** | FastAPI | High-Performance AI Gateway |
+| **Seguridad** | JWT | Bearer Token Authentication |
+
 
 ### Diagrama de Flujo de Datos
 ```
@@ -578,6 +586,13 @@ omnicare-ai/
 │   │   ├── migrations/      # Migraciones de base de datos
 │   │   └── manage.py
 │   │
+│   ├── backend-core/               # Core Empresarial .NET 8
+│   │   ├── OmniCare.Api/           # Endpoints de negocio y Scalar
+│   │   │   ├── Controllers/        # Lógica de rutas C#
+│   │   │   ├── Models/             # DTOs y Domain Models
+│   │   │   └── Program.cs          # Configuración del Pipeline y DI
+│   │   └── OmniCare.sln            # Solución de Visual Studio
+│   │
 │   ├── ai-engine/           # FastAPI + LangGraph
 │   │   ├── main.py          # Servidor FastAPI
 │   │   ├── agents/          # Agentes autónomos
@@ -673,7 +688,7 @@ Para reportar problemas o sugerir mejoras:
 
 ## 📄 Licencia
 
-Este proyecto está bajo licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+Este proyecto esta bajo derechos de autor Jorge Herraiz Soler no se puede utilizar para fines comerciales ni lucrativos.
 
 ---
 
