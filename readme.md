@@ -13,7 +13,7 @@
 ![Django](https://img.shields.io/badge/Django-5.0+-darkgreen.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-red.svg)
 ![LangGraph](https://img.shields.io/badge/LangGraph-Latest-purple.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License](https://img.shields.io/badge/License-©jherraizsoler-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Production-success.svg)
 ![OmniCare AI Preview](docs/omnicare-preview.png)
 
