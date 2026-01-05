@@ -1,6 +1,6 @@
 # 🏥 OmniCare AI: Sistema de Agentes Médicos Autónomos
 <p align="center">
-  <img src="tu_ruta_a_la_imagen/banner_omnicare.png" alt="OmniCare AI Banner" width="100%">
+  <img src="banner_OmniCare_AI.png" alt="OmniCare AI Banner" width="100%">
 </p>
 
 > **Arquitectura Híbrida**: Núcleo empresarial en **.NET 8**, 
