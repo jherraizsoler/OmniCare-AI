@@ -206,7 +206,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 Interfaz de usuario especializada por roles con chat en tiempo real y visualización avanzada.
 ```bash
 # Navegar a la carpeta donde está dashboard.py
-cd src/dashboard
+cd src/ai-engine
 
 # Activar entorno virtual (Windows)
 ..\..\venv\Scripts\Activate.ps1
