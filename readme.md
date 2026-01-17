@@ -232,6 +232,8 @@ cd src/backend-core/OmniCare.Api
 
 # Ejecutar la aplicación
 dotnet run
+
+Ir a esta url: http://localhost:5129/scalar/v1
 ```
 > **Tip 💡**  
 > En **Scalar**, puedes usar el botón **"Test Request"** (como se muestra en la captura) para observar cómo los **tokens de la IA llegan uno a uno**, 
