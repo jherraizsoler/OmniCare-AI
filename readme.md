@@ -147,10 +147,10 @@ Gestiona la persistencia de historiales clínicos, autenticación JWT y registro
 cd src/data-layer
 
 # Activar entorno virtual (Windows)
-venv\Scripts\activate
+..\..\venv\Scripts\Activate.ps1
 
 # O en Linux/Mac
-source venv/bin/activate
+source ../../venv/bin/activate
 
 # Aplicar migraciones (primera vez)
 python manage.py migrate
