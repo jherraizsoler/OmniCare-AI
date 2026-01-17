@@ -178,10 +178,10 @@ El **"Cerebro"** que ejecuta el grafo de agentes autónomos con orquestación in
 cd src/ai-engine
 
 # Activar entorno virtual (Windows)
-venv\Scripts\activate
+..\..\venv\Scripts\Activate.ps1
 
 # O en Linux/Mac
-source venv/bin/activate
+source ../../venv/bin/activate
 
 # Levantar FastAPI
 python main.py
@@ -209,10 +209,10 @@ Interfaz de usuario especializada por roles con chat en tiempo real y visualizac
 cd src/dashboard
 
 # Activar entorno virtual (Windows)
-venv\Scripts\activate
+..\..\venv\Scripts\Activate.ps1
 
 # O en Linux/Mac
-source venv/bin/activate
+source ../../venv/bin/activate
 
 # Levantar Streamlit
 streamlit run dashboard.py
