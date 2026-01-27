@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "omnicare": "./src/ai_engine/graph_engine.py:medical_graph"
+  },
+  "env": "./src/ai_engine/.env"
+}

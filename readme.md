@@ -331,6 +331,44 @@ curl -X POST "http://localhost:8000/analyze-stream" \
   }'
 ```
 
+### Opción 4: 🛠️ Depuración y Orquestación con LangGraph Studio
+
+
+Para garantizar la fiabilidad del triaje clínico, **OmniCare AI** es totalmente compatible con **LangGraph Studio**. Esta integración permite una observabilidad profunda y en tiempo real del flujo de decisiones de los agentes médicos.
+
+### 🌟 Beneficios de la Integración
+* **Visualización en Tiempo Real:** Interfaz gráfica para observar la transición de estados entre nodos (Diagnóstico Presuntivo -> Evaluación de Riesgo -> Recomendación).
+* **Time-Travel Debugging:** Capacidad para retroceder a estados anteriores del triaje, modificar variables y re-ejecutar nodos para testear diversos escenarios médicos.
+* **Hot Reloading:** Los cambios en la lógica de los agentes se reflejan instantáneamente sin reiniciar el servicio.
+
+### ⚙️ Configuración del Entorno
+Para que el Studio reconozca el flujo de agentes, asegúrate de tener el archivo `langgraph.json` en la raíz del proyecto con la siguiente estructura:
+
+```json
+{
+  "dependencies": ["."],
+  "graphs": {
+    "medical_triage": "./omnicare/agents/graph.py:graph"
+  },
+  "env": ".env"
+}
+```
+
+
+### 🚀 Ejecución y Acceso
+
+Para levantar el servidor de desarrollo local y habilitar la visualización, utiliza **PowerShell** en la raíz del proyecto:
+
+```powershell
+# Configurar el path y arrancar el servidor de desarrollo
+$env:PYTHONPATH="."; langgraph dev
+```
+Una vez el servidor esté activo, puedes interactuar con el grafo y monitorizar los hilos de ejecución directamente desde la **Web** a través de la interfaz de LangChain Smith:
+
+🔗 **[🎨 Acceder a LangGraph Studio UI](https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024)**
+
+> **Nota:** Esta interfaz web se conecta a tu servidor local en el puerto `2024`, permitiendo depurar el razonamiento de los agentes de **OmniCare AI** de forma visual sin instalaciones adicionales. Esto asegura la integridad y trazabilidad de los procesos para **OMNICARE_AI**.
+
 ---
 
 ## 🧠 Arquitectura de Agentes (LangGraph) con Integración .NET

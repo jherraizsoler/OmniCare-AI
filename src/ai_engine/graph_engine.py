@@ -5,9 +5,12 @@ from langgraph.graph import StateGraph, END
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 import httpx
+from langgraph.checkpoint.memory import MemorySaver
 
-# Importamos tu definición de estado
-from state import AgentState
+# IMPORT ABSOLUTO - funciona después de pip install -e .
+from ai_engine.state import AgentState
+
+
 
 load_dotenv()
 
@@ -18,7 +21,10 @@ llm = ChatOpenAI(
     max_tokens=500
 )
 
-# 2. NODO: Recuperador de Django
+# 2. Inicializa la memoria
+memory = MemorySaver()
+
+# 3. NODO: Recuperador de Django
 async def retrieval_node(state: AgentState):
     patient_id = state['patient_data'].get('patient_id')
     async with httpx.AsyncClient() as client:
@@ -36,7 +42,7 @@ async def retrieval_node(state: AgentState):
     content = f"Datos del Paciente ({name}): {history}"
     return {"messages": [SystemMessage(content=content)]}
 
-# 3. NODO: Analista Médico
+# 4. NODO: Analista Médico
 async def analysis_node(state: AgentState):
     # El analista toma todos los mensajes (historial + síntomas del usuario)
     prompt = [
@@ -46,7 +52,7 @@ async def analysis_node(state: AgentState):
     response = await llm.ainvoke(prompt)
     return {"messages": [response]}
 
-# 4. NODO: Revisor de Ética (Usa tus banderas de seguridad)
+# 5. NODO: Revisor de Ética (Usa tus banderas de seguridad)
 async def ethics_node(state: AgentState):
     # Obtener el contenido de la respuesta final
     final_response = state['messages'][-1].content
@@ -74,7 +80,7 @@ async def ethics_node(state: AgentState):
     }
     
     
-# 5. Construcción del Grafo de Agentes Autónomos
+# 6. Construcción del Grafo de Agentes Autónomos
 workflow = StateGraph(AgentState)
 
 # Añadimos los nodos
@@ -89,4 +95,8 @@ workflow.add_edge("analyst", "ethics_reviewer")
 workflow.add_edge("ethics_reviewer", END)
 
 # Compilamos
-medical_graph = workflow.compile()
+medical_graph = workflow.compile( 
+    interrupt_before=["ethics_reviewer"]
+)
+# Alias para LangGraph Studio
+graph = medical_graph
