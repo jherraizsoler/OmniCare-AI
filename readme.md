@@ -237,6 +237,40 @@ Ir a esta url: http://localhost:5129/scalar/v1
 > gracias al soporte de **streaming en tiempo real** configurado en el backend.
 
 
+---
+
+### Dockerización
+
+```markdown
+## 🐳 Dockerización: Despliegue Profesional
+
+**OmniCare AI** está completamente contenedorizado para asegurar un entorno de ejecución idéntico en desarrollo y producción.
+
+
+### Uso con Docker
+```bash
+# 1. Construir la imagen (asegúrate de estar en la raíz)
+docker build -t omnicare-ai .
+
+# 2. Ejecutar el contenedor (mapeo de puertos FastAPI y Streamlit)
+docker run -p 8000:8000 -p 8501:8501 --env-file .env omnicare-ai
+```
+
+---
+
+### 4. Sección de CI/CD (Añadir)
+Documenta la automatización que configuramos en GitHub:
+
+```markdown
+## ⚙️ Integración Continua (CI/CD)
+
+El repositorio utiliza **GitHub Actions** (`.github/workflows/main.yml`) para validar cada cambio automáticamente:
+
+1. **Setup**: Configuración de entorno Python 3.11.
+2. **Testing**: Ejecución automática de la suite de `pytest`.
+3. **Build Check**: Validación de construcción de la imagen **Docker**.
+4. **Security**: Verificación de secretos y variables de entorno.
+
 ### 👥 Funcionalidades por Rol
 
 El sistema adapta su interfaz y lógica de negocio dinámicamente según el perfil del usuario autenticado:
@@ -418,14 +452,24 @@ Respuesta en Streaming vía Scalar / WebSockets
 |------------|------------|-------------------------------|
 | **Frontend** | Streamlit | Interfaz de Usuario Reactiva |
 | **Backend Core** | **.NET 8 (C#)** | **Enterprise Business Logic / Web API** |
-| **API Explorer** | **Scalar** | **Modern Swagger / OpenAPI Interface** |
-| **Orquestador** | LangGraph | Workflow Engine / Semantic Kernel |
+| **Orquestador** | LangGraph | Workflow Engine / AI Agent Orchestrator |
+| **Observabilidad** | **LangSmith** | Tracing, Debugging y Evaluación de LLM |
+| **Contenedores** | **Docker** | **Aislamiento y Despliegue Consistente** |
+| **CI/CD** | **GitHub Actions** | **Pipeline de Integración y Entrega Continua** |
 | **Data Layer** | Django 5.0 | Persistence Layer / Entity Framework Pattern |
-| **IA Model** | GPT-4o-mini | LLM Service |
-| **API Layer** | FastAPI | High-Performance AI Gateway |
-| **Seguridad** | JWT | Bearer Token Authentication |
+| **Seguridad** | **JWT / .env** | **Bearer Token Auth & Secret Management** |
+
+## 🧪 Calidad de Software y Testing
+
+Para garantizar la fiabilidad del triaje médico y la integridad de los datos de **Abbant**, el sistema cuenta con una suite de pruebas automatizadas.
 
 
+
+### Ejecución de Pruebas
+```powershell
+# Ejecutar tests de integración y motor de IA
+pytest src/ai_engine/tests/test_basic.py
+```
 ### Diagrama de Flujo de Datos
 ```
 ┌─────────────────┐
@@ -520,45 +564,70 @@ pip install -r requirements.txt
 
 **Librerías Esenciales:**
 ```txt
-# Orquestación de Agentes
-langgraph>=0.0.20
-langchain-openai>=0.0.5
-langchain-core>=0.1.10
+# --- Framework Core (Django para Persistencia & API) ---
+django>=5.1.0
+djangorestframework>=3.15.0
+djangorestframework-simplejwt>=5.4.0
+django-cors-headers>=4.4.0
+psycopg2-binary>=2.9.9
 
-# API y Servidor
-fastapi>=0.109.0
-uvicorn[standard]>=0.27.0
-django>=5.0.0
-djangorestframework>=3.14.0
+# --- Servidor & Validación (Compatibilidad FastAPI/Uvicorn) ---
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.10.0
+pydantic-settings>=2.7.0
+scalar-fastapi
 
-# Interfaz de Usuario
-streamlit>=1.30.0
+# --- Inteligencia Artificial (Ecosistema LangChain 0.3/0.4) ---
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.4.1
+langchain-openai>=0.2.0
+langgraph>=0.2.0
+langgraph-checkpoint>=2.1.0
+langgraph-cli
+langsmith>=0.2.0
 
-# Seguridad
-pyjwt>=2.8.0
-cryptography>=41.0.0
+# --- Dashboard & Visualización ---
+streamlit>=1.52.0
+matplotlib>=3.10.0
+numpy>=1.26.0
+pandas>=2.2.0
 
-# Utilidades
-httpx>=0.26.0
+# --- Comunicación & Utilidades ---
+httpx>=0.28.0
 python-dotenv>=1.0.0
-matplotlib>=3.8.0
-reportlab>=4.0.0  # Para generación de PDFs
+typing-extensions>=4.12.0
+
+# --- Generación de Reportes Clínicos ---
+reportlab>=4.2.0
+
+# --- Testing & CI/CD ---
+pytest>=8.0.0
+pytest-mock>=3.12.0
+pytest-asyncio>=0.23.0
 ```
 
 ---
+## 🔧 Configuración del Entorno (.env)
 
-## 🔧 Configuración del Entorno
+Para el correcto funcionamiento de **OmniCare AI**, asegúrate de configurar las siguientes variables en tu archivo `.env` local:
 
-### Variables de Entorno Requeridas (.env)
 ```env
 # OpenAI Configuration
-OPENAI_API_KEY=tu-api-key-aqui
+OPENAI_API_KEY=tu_api_key_aqui
+
+# LangSmith Tracking (Observabilidad y Debugging del Motor de IA)
+LANGSMITH_TRACKING=true
+LANGSMITH_ENDPOINT="[https://api.smith.langchain.com](https://api.smith.langchain.com)"
+LANGSMITH_API_KEY=tu_langsmith_key_aqui
+LANGSMITH_PROJECT="OmniCare-AI-Dev"
 
 # Django Configuration
 DJANGO_DEBUG=False
 DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
 
-# Database (opcional, por defecto usa SQLite)
+# Database (Opcional, por defecto usa SQLite)
 DATABASE_URL=postgresql://user:password@localhost:5432/omnicare
 
 # JWT Configuration
@@ -566,13 +635,13 @@ JWT_ALGORITHM=HS256
 JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
 JWT_REFRESH_TOKEN_EXPIRE_DAYS=7
 
-# FastAPI Configuration
+# Puertos y Host de Servicios
 FASTAPI_HOST=0.0.0.0
 FASTAPI_PORT=8000
-
-# Streamlit Configuration
 STREAMLIT_SERVER_PORT=8501
 ```
+> [!CAUTION]
+> **Recordatorio de Seguridad**: Este archivo `.env` contiene credenciales sensibles. Nunca lo compartas ni lo subas a GitHub. Debe estar listado en tu `.gitignore`.
 
 ### Puertos Utilizados
 
@@ -613,60 +682,40 @@ STREAMLIT_SERVER_PORT=8501
 - **Django Admin**: `http://localhost:8001/admin`
 - **Streamlit Dashboard**: `http://localhost:8501`
 
-### Estructura del Proyecto
-```
-omnicare-ai/
+### 📂 Estructura del Proyecto
+```text
+OmniCare-AI/
 ├── src/
-│   ├── data-layer/          # Django backend
-│   │   ├── api/             # REST API endpoints
-│   │   │   ├── views.py     # Vistas y lógica de negocio
-│   │   │   ├── serializers.py
-│   │   │   └── urls.py
-│   │   ├── models/          # Modelos de datos
-│   │   │   ├── patient.py
-│   │   │   ├── consultation.py
-│   │   │   └── audit.py
-│   │   ├── migrations/      # Migraciones de base de datos
-│   │   └── manage.py
+│   ├── ai_engine/               # Motor de IA (FastAPI + LangGraph)
+│   │   ├── main.py              # API Gateway del motor de IA
+│   │   ├── graph_engine.py      # Lógica de orquestación de estados (LangGraph)
+│   │   ├── state.py             # Definición de esquemas y estados de agentes
+│   │   ├── dashboard.py         # Interfaz de usuario (Streamlit)
+│   │   └── tests/               # Pruebas unitarias del motor de IA
 │   │
-│   ├── backend-core/               # Core Empresarial .NET 8
-│   │   ├── OmniCare.Api/           # Endpoints de negocio y Scalar
-│   │   │   ├── Controllers/        # Lógica de rutas C#
-│   │   │   ├── Models/             # DTOs y Domain Models
-│   │   │   └── Program.cs          # Configuración del Pipeline y DI
-│   │   └── OmniCare.sln            # Solución de Visual Studio
+│   ├── backend-core/            # Núcleo Empresarial (.NET 8)
+│   │   ├── OmniCare.Api/        # Endpoints de negocio y servicios C#
+│   │   │   ├── Controllers/     # Controladores (Consulta Médica, etc.)
+│   │   │   ├── Services/        # Lógica de Asistente Médico
+│   │   │   └── Program.cs       # Configuración y Dependency Injection
+│   │   └── OmniCare.sln         # Solución global de Visual Studio
 │   │
-│   ├── ai-engine/           # FastAPI + LangGraph
-│   │   ├── main.py          # Servidor FastAPI
-│   │   ├── agents/          # Agentes autónomos
-│   │   │   ├── retriever.py
-│   │   │   ├── analyst.py
-│   │   │   └── ethics.py
-│   │   ├── graph.py         # StateGraph definition
-│   │   └── config.py        # Configuración del motor
-│   │
-│   └── dashboard/           # Streamlit UI
-│       ├── dashboard.py     # Aplicación principal
-│       ├── components/      # Componentes reutilizables
-│       │   ├── header.py
-│       │   ├── chat.py
-│       │   └── metrics.py
-│       └── utils/           # Utilidades
+│   └── data-layer/              # Capa de Persistencia (Django 5.0)
+│       ├── medical_records/     # Gestión de pacientes, consultas y auditoría
+│       │   ├── models.py        # Modelos ORM (Patient, AI Audit Log)
+│       │   ├── views.py         # Lógica de la API REST de datos
+│       │   └── serializers.py   # Transformación de datos para la API
+│       ├── omnicare_db/         # Configuración del servidor Django
+│       └── manage.py            # CLI de administración de Django
 │
-├── tests/                   # Tests automatizados
-│   ├── test_agents.py
-│   ├── test_api.py
-│   └── test_integration.py
-│
-├── docs/                    # Documentación técnica
-│   ├── architecture.md
-│   ├── api-reference.md
-│   └── deployment.md
-│
-├── requirements.txt         # Dependencias Python
-├── .env.example            # Plantilla de variables de entorno
-├── .gitignore
-└── README.md
+├── tests/                       # Suite de pruebas de integración global
+├── media/                       # Activos visuales y capturas del sistema
+├── .langgraph_api/              # Checkpoints y almacenamiento local de LangGraph
+├── deployments/                 # Archivos de configuración de despliegue
+├── Dockerfile                   # Configuración de contenerización
+├── requirements.txt             # Dependencias de Python
+├── pyproject.toml               # Configuración del proyecto y herramientas
+└── README.md                    # Documentación principal
 ```
 
 ---
