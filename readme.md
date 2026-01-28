@@ -269,6 +269,34 @@ El repositorio utiliza **GitHub Actions** (`.github/workflows/main.yml`) para va
 3. **Build Check**: Validación de construcción de la imagen **Docker**.
 4. **Security**: Verificación de secretos y variables de entorno.
 
+## 🧪 Pruebas Automatizadas
+
+El proyecto incluye una suite de pruebas para validar tanto la lógica individual de los agentes como la integración global del sistema **OmniCare AI**.
+
+
+### Ejecución de Tests (PowerShell)
+
+Para ejecutar los tests detectados en la estructura actual, utiliza los siguientes comandos desde la raíz del proyecto:
+
+```powershell
+# 1. Validación del Motor de IA (FastAPI + LangGraph)
+# Verifica la lógica de los agentes, estados y nodos.
+pytest src/ai_engine/tests/test_basic.py
+
+# 2. Validación de Integración Global
+# Asegura la comunicación entre el core y las capas de datos.
+pytest tests/test_core.py
+```
+
+### ⚙️ Configuración de Testing
+
+* **Framework**: `pytest` con soporte para `pytest-asyncio` (necesario para la naturaleza asíncrona de LangGraph).
+* **Configuración**: El archivo `pytest.ini` en la raíz define los parámetros por defecto y los marcadores de asincronía.
+* **Aislamiento**: Se recomienda ejecutar los tests con el entorno virtual activado para asegurar que todas las dependencias de `requirements.txt` estén disponibles y no haya conflictos de versiones.
+
+---
+
+
 ### 👥 Funcionalidades por Rol
 
 El sistema adapta su interfaz y lógica de negocio dinámicamente según el perfil del usuario autenticado:
