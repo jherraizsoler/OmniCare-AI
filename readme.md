@@ -172,7 +172,7 @@ python manage.py runserver 8001
 El **"Cerebro"** que ejecuta el grafo de agentes autónomos con orquestación inteligente.
 ```bash
 # Navegar a la carpeta donde está main.py
-cd src/ai-engine
+cd src/ai_engine
 
 # Activar entorno virtual (Windows)
 ..\..\venv\Scripts\Activate.ps1
@@ -203,7 +203,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 Interfaz de usuario especializada por roles con chat en tiempo real y visualización avanzada.
 ```bash
 # Navegar a la carpeta donde está dashboard.py
-cd src/ai-engine
+cd src/ai_engine
 
 # Activar entorno virtual (Windows)
 ..\..\venv\Scripts\Activate.ps1

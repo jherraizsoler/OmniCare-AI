@@ -1,26 +1,28 @@
+# main.py
+
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 from typing import List, AsyncGenerator
 import uvicorn
 import json
+from pydantic import ConfigDict
 from langchain_core.messages import HumanMessage
 
 # Importamos tu grafo y tu estado
-from graph_engine import medical_graph
-from state import AgentState
+from ai_engine.graph_engine import medical_graph
+from ai_engine.state import AgentState
 
 app = FastAPI(title="OmniCare AI Engine")
 
 # Modelos para la API (Pydantic)
 class MedicalQuery(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     patient_id: str = Field(alias="patientId")
     symptoms: str
     urgency_level: int = Field(alias="urgencyLevel")
     consent_provided: bool = Field(alias="consentProvided")
 
-    class Config:
-        populate_by_name = True
 
 class AiResponse(BaseModel):
     analysis: str

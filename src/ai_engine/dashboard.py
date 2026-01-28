@@ -1,10 +1,12 @@
+# dashboard.py
+
 import streamlit as st
 import httpx
 import matplotlib.pyplot as plt
 import asyncio
 import pandas as pd
 from langchain_core.messages import HumanMessage
-from graph_engine import medical_graph
+from ai_engine.graph_engine import medical_graph
 
 # --- CONFIGURACIÓN ---
 DJANGO_URL = "http://localhost:8001/api"
