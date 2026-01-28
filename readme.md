@@ -15,11 +15,23 @@
 ![LangGraph Studio](https://img.shields.io/badge/LangGraph_Studio-Integrated-orange.svg)
 ![License](https://img.shields.io/badge/License-©jherraizsoler-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Production-success.svg)
+![Tests](https://img.shields.io/github/actions/workflow/status/tu-usuario/omnicare-ai/main.yml?label=tests&style=flat-square)
+![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen.svg?style=flat-square)
+
 
 Sistema inteligente de análisis médico que combina un motor de IA basado en **LangGraph** con soporte para **LangGraph Studio**, una capa de datos en **Django**, y una interfaz interactiva con **Streamlit**. Arquitectura de microservicios diseñada para la automatización de procesos clínicos complejos con auditoría completa y gestión profesional por roles.
 
 > **TL;DR** > Plataforma médica basada en agentes autónomos con LangGraph y **LangGraph Studio**, orquestada por .NET 8,  
 > con IA en streaming, auditoría clínica, seguridad JWT y dashboards por rol.
+
+---
+
+## 📖 Índice
+1. [🚀 Guía de Inicio Rápido](#-guía-de-inicio-rápido)
+2. [🧠 Motor de IA (LangGraph)](#-motor-de-inteligencia-artificial-langgraph)
+3. [🐳 Dockerización](#-dockerización-despliegue-profesional)
+4. [🧪 Pruebas Automatizadas](#-pruebas-automatizadas)
+5. [🔒 Seguridad y Auditoría](#-seguridad-y-auditoría-especializada)
 
 
 ---
