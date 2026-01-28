@@ -15,8 +15,9 @@
 ![LangGraph Studio](https://img.shields.io/badge/LangGraph_Studio-Integrated-orange.svg)
 ![License](https://img.shields.io/badge/License-©jherraizsoler-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Production-success.svg)
-![Tests](https://img.shields.io/github/actions/workflow/status/tu-usuario/omnicare-ai/main.yml?label=tests&style=flat-square)
-![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen.svg?style=flat-square)
+![Tests](https://img.shields.io/badge/Tests-Passing-success)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue)
+![CI/CD](https://img.shields.io/badge/GitHub_Actions-Active-brightgreen)
 
 
 Sistema inteligente de análisis médico que combina un motor de IA basado en **LangGraph** con soporte para **LangGraph Studio**, una capa de datos en **Django**, y una interfaz interactiva con **Streamlit**. Arquitectura de microservicios diseñada para la automatización de procesos clínicos complejos con auditoría completa y gestión profesional por roles.
@@ -27,11 +28,14 @@ Sistema inteligente de análisis médico que combina un motor de IA basado en **
 ---
 
 ## 📖 Índice
-1. [🚀 Guía de Inicio Rápido](#-guía-de-inicio-rápido)
-2. [🧠 Motor de IA (LangGraph)](#-motor-de-inteligencia-artificial-langgraph)
-3. [🐳 Dockerización](#-dockerización-despliegue-profesional)
-4. [🧪 Pruebas Automatizadas](#-pruebas-automatizadas)
-5. [🔒 Seguridad y Auditoría](#-seguridad-y-auditoría-especializada)
+* [🎨 Funcionalidades Frontend](#-capa-de-presentación-frontend---streamlit)
+* [🧠 Motor de IA (LangGraph)](#-motor-de-inteligencia-artificial-langgraph)
+* [📊 Arquitectura Técnica](#-arquitectura-técnica)
+* [🚀 Guía de Inicio Rápido](#-guía-de-inicio-rápido)
+* [🐳 Dockerización](#-dockerización-despliegue-profesional)
+* [🧪 Pruebas Automatizadas](#-pruebas-automatizadas)
+* [🔒 Seguridad y Auditoría](#-seguridad-y-auditoría-especializada)
+* [📂 Estructura del Proyecto](#-estructura-del-proyecto)
 
 
 ---
@@ -97,6 +101,11 @@ Sistema de colores semánticos para prevenir errores operativos:
 - Garantiza que `patient_id` fluya correctamente a través de todos los agentes
 - Validación de integridad de datos en cada transición de estado
 - Recuperación automática ante fallos de comunicación
+
+**💾 Persistencia de Hilos (Checkpoints)**
+- Uso de la carpeta `.langgraph_api` para almacenamiento de estados mediante archivos `.pckl`.
+- Capacidad de **Time-Travel**: permite recuperar y auditar cualquier estado anterior de una consulta médica.
+- Aislamiento de sesiones por paciente garantizando que no haya cruce de contextos.
 
 ### 🛠️ Capa de Datos (Backend - Django REST)
 
@@ -267,6 +276,35 @@ docker build -t omnicare-ai .
 docker run -p 8000:8000 -p 8501:8501 --env-file .env omnicare-ai
 ```
 
+### ⚡ Orquestación con Docker Compose (Recomendado)
+
+Para evitar levantar cada servicio manualmente, **OmniCare AI** utiliza Docker Compose para orquestar la base de datos, el motor de IA, el backend .NET y el dashboard en una red aislada.
+
+
+**Ventajas de la orquestación:**
+
+* **Persistencia**: Gestión automática de volúmenes para la base de datos y logs de auditoría clínica.
+* **Red Interna**: Comunicación segura entre el Backend Core y el Motor de IA sin exponer puertos innecesarios al exterior.
+* **Escalabilidad**: Sistema preparado para levantar múltiples instancias del motor de agentes si la demanda de consultas aumenta.
+
+### ⚡ Despliegue con un solo comando
+
+Gracias al archivo `docker-compose.yml`, no es necesario abrir terminales independientes. El sistema gestiona las dependencias (ej: el motor de IA espera a que la base de datos esté lista) automáticamente.
+
+```bash
+# Construir y arrancar todo el ecosistema OmniCare AI
+docker-compose up --build -d
+
+# Ver logs de todos los servicios en tiempo real
+docker-compose logs -f
+```
+> **📌 Nota**: Asegúrate de que los puertos `8000`, `8001`, `8501` y `5129` estén libres en tu máquina local antes de ejecutar el comando para evitar conflictos de red con los contenedores.
+
+**Verificar puertos ocupados (PowerShell):**
+```powershell
+# Lista los procesos que están escuchando en los puertos del proyecto
+Get-NetTCPConnection -LocalPort 8000, 8001, 8501, 5129 -ErrorAction SilentlyContinue
+```
 ---
 
 ### 4. Sección de CI/CD (Añadir)

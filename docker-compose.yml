@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # Capa de Datos y Persistencia
+  data-layer:
+    build:
+      context: .
+      dockerfile: ./src/data-layer/Dockerfile
+    ports:
+      - "8001:8001"
+    env_file: .env
+    volumes:
+      - ./src/data-layer:/app
+    restart: always
+
+  # Motor de IA (LangGraph + FastAPI)
+  ai-engine:
+    build:
+      context: .
+      dockerfile: ./src/ai_engine/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      - data-layer
+    restart: always
+
+  # Backend Core (.NET 8)
+  backend-core:
+    build:
+      context: .
+      dockerfile: ./src/backend-core/OmniCare.Api/Dockerfile
+    ports:
+      - "5129:5129"
+    env_file: .env
+    depends_on:
+      - ai-engine
+    restart: always
+
+  # Interfaz de Usuario (Streamlit)
+  dashboard:
+    build:
+      context: .
+      dockerfile: ./src/ai_engine/Dockerfile # O el específico de dashboard
+    command: streamlit run src/ai_engine/dashboard.py
+    ports:
+      - "8501:8501"
+    env_file: .env
+    depends_on:
+      - backend-core
+    restart: always
+
+volumes:
+  postgres_data:
+  langgraph_checkpoints:
