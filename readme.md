@@ -241,7 +241,6 @@ Ir a esta url: http://localhost:5129/scalar/v1
 
 ### Dockerización
 
-```markdown
 ## 🐳 Dockerización: Despliegue Profesional
 
 **OmniCare AI** está completamente contenedorizado para asegurar un entorno de ejecución idéntico en desarrollo y producción.
@@ -261,7 +260,6 @@ docker run -p 8000:8000 -p 8501:8501 --env-file .env omnicare-ai
 ### 4. Sección de CI/CD (Añadir)
 Documenta la automatización que configuramos en GitHub:
 
-```markdown
 ## ⚙️ Integración Continua (CI/CD)
 
 El repositorio utiliza **GitHub Actions** (`.github/workflows/main.yml`) para validar cada cambio automáticamente:
