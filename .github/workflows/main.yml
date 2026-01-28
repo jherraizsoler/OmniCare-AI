@@ -29,6 +29,7 @@ jobs:
     - name: Run Tests
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        PYTHONPATH: src
       run: |
         # Ejecuta los tests que existan en la carpeta /tests
         pytest
