@@ -4,9 +4,7 @@
 </p>
 
 > **Arquitectura Híbrida**: Núcleo empresarial en **.NET 8**, 
-> orquestación de agentes con **LangGraph** y persistencia de datos 
-> en **Django**.
-
+> orquestación de agentes con **LangGraph**, depuración visual en **LangGraph Studio** > y persistencia de datos en **Django**.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-yellow.svg)
 ![.NET 8](https://img.shields.io/badge/.NET-8+-purple.svg)
@@ -14,14 +12,13 @@
 ![Django](https://img.shields.io/badge/Django-5.0+-darkgreen.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-red.svg)
 ![LangGraph](https://img.shields.io/badge/LangGraph-Latest-purple.svg)
+![LangGraph Studio](https://img.shields.io/badge/LangGraph_Studio-Integrated-orange.svg)
 ![License](https://img.shields.io/badge/License-©jherraizsoler-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Production-success.svg)
 
+Sistema inteligente de análisis médico que combina un motor de IA basado en **LangGraph** con soporte para **LangGraph Studio**, una capa de datos en **Django**, y una interfaz interactiva con **Streamlit**. Arquitectura de microservicios diseñada para la automatización de procesos clínicos complejos con auditoría completa y gestión profesional por roles.
 
-Sistema inteligente de análisis médico que combina un motor de IA basado en **LangGraph**, una capa de datos en **Django**, y una interfaz interactiva con **Streamlit**. Arquitectura de microservicios diseñada para la automatización de procesos clínicos complejos con auditoría completa y gestión profesional por roles.
-
-> **TL;DR**  
-> Plataforma médica basada en agentes autónomos con LangGraph, orquestada por .NET 8,  
+> **TL;DR** > Plataforma médica basada en agentes autónomos con LangGraph y **LangGraph Studio**, orquestada por .NET 8,  
 > con IA en streaming, auditoría clínica, seguridad JWT y dashboards por rol.
 
 
